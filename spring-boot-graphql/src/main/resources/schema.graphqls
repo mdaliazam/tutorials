@@ -1,0 +1,37 @@
+type Publisher {
+    id: ID!
+    name: String!
+    authors: [Author]
+    books: [Book]
+}
+
+type Author {
+    id: ID!
+    name: String!
+    publisher: Publisher!
+    books: [Book]!
+}
+ 
+ 
+type Book {
+    id: ID!
+    title: String!
+    ISBN: String! @deprecated(reason: "This field will no longer be supported after September 20, 2020. Please use `ASIN` instead.")
+    author: Author!
+    publisher: Publisher!
+}
+
+# Mutation: to add entities
+type Mutation {
+	addPublisher(name: String!): Publisher!
+	addAuthor(name: String!, publisherId: Int!): Author!
+	addBook(title: String!, ISBN: String!, publisherId: Int!, authorId:Int!): Book!
+}
+ 
+# The Root Query for the application
+type Query {
+	publisherById(id:Int): Publisher
+    authorById(id:Int): Author
+    bookById(id:Int): Book
+}
+
